@@ -1,25 +1,46 @@
-import React, { useState } from 'react'
-import './App.css'
+import { useState, useEffect } from "react";
+import { api } from "./api";
+import "./App.css";
+
+export type Item = {
+  id: number;
+  name: string;
+};
+
+type DataResponse = {
+  data: Item[];
+};
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [data, setData] = useState<DataResponse>();
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await api.get("/", {
+          headers: { "Cache-Control": "no-cache" },
+        });
+        setData(response.data);
+        console.log(response.data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   return (
-    <>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count: number) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <div className="list">
+      {data?.data?.length
+        && data?.data.map((item) => (
+            <div key={item.id}>
+              {item.id}
+            </div>
+          ))
+        }
+    </div>
+  );
 }
 
-export default App
+export default App;
