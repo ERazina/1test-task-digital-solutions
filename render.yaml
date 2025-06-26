@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: fullstack-app
+    env: node
+    buildCommand: cd ../client && yarn && yarn build && cd ../server && yarn
+    startCommand: node index.js
+    rootDir: server
+    envVars:
+      - key: NODE_VERSION
+        value: 18
