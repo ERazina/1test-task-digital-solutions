@@ -1,11 +1,19 @@
 import express from "express";
 import cors from "cors";
+import { fileURLToPath } from "url";
+import path from "path";
 
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const buildPath = path.join(__dirname, "..", "client", "dist");
 
 app.use(cors());
 app.use(express.json());
+
+app.use(express.static(buildPath));
 
 const data = new Array(1000).fill(1).map((_, i) => ({
   id: i + 1,
@@ -69,6 +77,10 @@ app.get("/items", (req, res) => {
     hasMore: end < filtered.length,
     selected: Array.from(selectedIds),
   });
+});
+
+app.get(/^\/(?!api|items|select|sort).*/, (req, res) => {
+  res.sendFile(path.resolve(buildPath, "index.html"));
 });
 
 app.listen(port, () => {
