@@ -8,7 +8,7 @@ const port = process.env.PORT || 3000;
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const buildPath = path.join(__dirname, "..", "client", "dist");
+const buildPath = path.join(__dirname, "..", "client", "public");
 
 app.use(cors());
 app.use(express.json());
