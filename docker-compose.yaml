@@ -1,0 +1,20 @@
+version: '3.9'
+
+services:
+  server:
+    build: ./server
+    container_name: express-server
+    ports:
+      - "3000:3000"
+    restart: always
+    volumes:
+      - ./server:/app
+
+  client:
+    build: ./client
+    container_name: react-client
+    ports:
+      - "8080:80"
+    restart: always
+    depends_on:
+      - server
