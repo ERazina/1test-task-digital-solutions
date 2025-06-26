@@ -1,0 +1,15 @@
+version: null
+meta:
+  environment: docker
+  toolchain:
+    name: docker
+    version: latest
+build:
+  dockerfile: server/dockerfile
+  skip: false
+run:
+  image: null
+  command: yarn start
+  args: null
+  persistenceMount: ""
+  containerPort: 3000
